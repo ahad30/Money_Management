@@ -38,26 +38,14 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
 
-    const taskCollection = client.db('taskManagementDB').collection('tasks');
+
+    const productCollection = client.db('ProductDB').collection('allProduct');
 
 
     app.get('/tasks', async (req , res) => {
       try {
-        const cursor = taskCollection.find();
+        const cursor = productCollection.find();
         const result = await cursor.toArray();
-        res.send(result);
-      }
-      catch (error) {
-        res.status(500).send({ message: "some thing went wrong" })
-      }
-    })
-
-
-    app.post('/tasks', async (req, res) => {
-      try {
-        const newTask = req.body;
-        console.log(newTask);
-        const result = await taskCollection.insertOne(newTask);
         res.send(result);
       }
       catch (error) {
@@ -82,34 +70,6 @@ async function run() {
   })
 
   
-  app.patch('/tasks/:id', async (req, res) => {
-    const id = req.params.id;
-    const filter = { _id: new ObjectId(id) };
-    const updatedDoc = {
-      $set: {
-        status: 'Complete'
-      }
-    }
-    const result = await taskCollection.updateOne(filter, updatedDoc);
-    res.send(result);
-  })
-
-
-
-  app.delete('/tasks/:id', async (req, res) => {
-   try{
-    const id = req.params.id;
-    const query = { _id: new ObjectId(id) }
-    console.log(query)
-    const result = await taskCollection.deleteOne(query);
-    res.send(result);
-   }
-   catch (error) {
-    res.status(500).send({ message: "Failed to Delete task" })
-  }
-  })
-
-
 
 
     // Send a ping to confirm a successful connection

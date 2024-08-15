@@ -3,6 +3,8 @@ import MainLayout from "../Layouts/MainLayout";
 import Home from "../Pages/Home/Home";
 import AddTask from "../Pages/AllTask/AddTask";
 import EditTask from "../Pages/AllTask/EditTask";
+import Login from "../Pages/Login/Login";
+import Register from "../Pages/Register/Register";
 
 export const routes = createBrowserRouter([
   {
@@ -21,6 +23,16 @@ export const routes = createBrowserRouter([
         path: "/editTask/:id",
         element: <EditTask/>,
       },
+      {
+        path: "/login",
+        element: <Login/>,
+      },
+
+      {
+        path: "/register",
+        element: <Register/>,
+      },
+ 
 
     ],
   },
