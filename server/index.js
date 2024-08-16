@@ -54,20 +54,32 @@ async function run() {
     })
 
                                              
-    app.put('/tasks/:id', async (req, res) => {
-      const id = req.params.id;
-      const filter = { _id: new ObjectId(id) }
-      const options = { upsert: true };
-      const updatedItem = req.body;   
-      const item = {
-          $set: {
-           ...updatedItem
-          }
+    app.get("/productSearch", async (req, res) => {
+      try {
+        const searchText = req.query.search || "";
+        // const filter = req.query.filter || "";
+        // const publishFilter = req.query.publisherFilter || "";
+
+
+        let query = {
+          productName: { $regex: searchText, $options: 'i' },
+        };
+
+        // if (filter) {
+        //   query['tags.label'] = filter;
+        // }
+        // if (publishFilter) {
+        //   query['publisher.label'] = publishFilter;
+        // }
+    
+        // console.log("Query:", query);
+        const result = await productCollection.find(query).toArray();
+        res.send({ result });
+      } catch (error) {
+        res.status(404).send({ error });
       }
-       console.log(item)
-      const result = await taskCollection.updateOne(filter, item, options);
-      res.send(result);
-  })
+    });
+    
 
   
 
