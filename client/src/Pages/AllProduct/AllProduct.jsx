@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useGetProductsQuery } from '../../features/Product/ProductApi';
+import moment from "moment";
+import { Link } from 'react-router-dom';
 
 const AllProduct = () => {
-  const { data, isLoading: tasksIsLoading, refetch } = useGetProductsQuery();
-  console.log(data);
+  const { data, isLoading, refetch } = useGetProductsQuery();
+  const [productData, setProductData] = useState([]);
+  // console.log(productData);
 
-  
+  useEffect(() => {
+    if (data) {
+      setProductData(data);
+    }
+  }, [data]);
 
   return (
-  <section className='max-w-7xl mx-auto'>
+  <section className='max-w-6xl mx-auto'>
    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {data?.length === 0 && (
             <div>
@@ -17,7 +24,7 @@ const AllProduct = () => {
               </p>
             </div>
           )}
-          {data.map((item) => (
+          {productData.map((item) => (
             <div className="" key={item?._id}>
               <div
                 className={`max-w-2xl overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800`}
@@ -35,11 +42,11 @@ const AllProduct = () => {
                       {item?.productName}
                     </p>
                     <div className="flex justify-between">
-                      <p className="text-xs font-medium text-blue-600 uppercase dark:text-blue-400 mt-3">
-                        {item?.publisher?.label}
+                      <p className="text-xs font-medium text-orange-300 uppercase dark:text-blue-400 mt-3">
+                        {item?.ratings}
                       </p>
                       <p className="text-xs font-medium text-green-600 uppercase dark:text-blue-400 mt-3">
-                        #{item?.tags?.label}
+                        #{item?.brand}
                       </p>
                     </div>
 
@@ -71,7 +78,7 @@ const AllProduct = () => {
               </div>
             </div>
           ))}
-        </div>
+    </div>
   </section>
   )
 }
