@@ -42,7 +42,7 @@ async function run() {
     const productCollection = client.db('ProductDB').collection('allProduct');
 
 
-    app.get('/tasks', async (req , res) => {
+    app.get('/products', async (req , res) => {
       try {
         const cursor = productCollection.find();
         const result = await cursor.toArray();
@@ -84,9 +84,9 @@ run().catch(console.dir);
 
  
 app.get('/', (req, res) => {
-  res.send('Task Management server')
+  res.send('Product Management server')
 })
 
 app.listen(port, () => {
-  console.log(`Task Management Server is running on port: ${port}`)
+  console.log(`Product Management Server is running on port: ${port}`)
 })

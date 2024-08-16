@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useGetTasksQuery, useDeleteTaskMutation, useUpdateStatusMutation } from '../../features/Task/TaskApi';
+import { useDeleteTaskMutation, useUpdateStatusMutation } from '../../features/Task/TaskApi';
 import DataTable from 'react-data-table-component';
 import { FaEdit } from 'react-icons/fa';
 import { RiDeleteBin4Line } from 'react-icons/ri';
@@ -12,6 +12,7 @@ import EditTask from './EditTask';
 const TaskList = () => {
   const { data: tasksData, isLoading: tasksIsLoading, refetch } = useGetTasksQuery();
   const [deleteTask, { isLoading: deleteIsLoading, isError: deleteIsError, isSuccess: deleteIsSuccess, error: deleteError }] = useDeleteTaskMutation();
+  
   const [updateStatus, { isLoading: updateIsLoading, isError: updateIsError, isSuccess: updateIsSuccess }] = useUpdateStatusMutation();
   const [tasks, setTasks] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);

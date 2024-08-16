@@ -136,23 +136,18 @@ const Header = () => {
             </Typography>
           </div>
 
-          <div className="flex items-center gap-4 ">
+          <div className="flex items-center gap-4">
             <div className="mr-2 hidden lg:block">{navList}</div>
           </div>
 
-
-
           <div className="flex items-center gap-2">
         
-
             {
               user ?
                 <>
                   <div className="flex items-center space-x-2">
-
                     <img data-tooltip-id="my-tooltip" data-tooltip-content={user.displayName} src={user.photoURL} alt="" className="w-[60px] h-[60px] object-cover rounded-full" />
                     <Tooltip id="my-tooltip" />
-
                     <Button onClick={handleSignOut} className={`bg-[#59C6D2]`}>Log out</Button>
                   </div>
              
