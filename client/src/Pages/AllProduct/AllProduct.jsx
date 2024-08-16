@@ -65,7 +65,7 @@ const AllProduct = () => {
       </div>
      
    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          {data?.length === 0 && (
+          {data?.length === 0 && searchData.length === 0 && (
             <div>
               <p className="flex justify-center text-red-400 font-bold">
                 No data found.
