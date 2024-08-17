@@ -131,6 +131,7 @@ const AllProduct = () => {
           <p className="flex justify-center text-red-400 font-bold">No data found.</p>
         </div>
       )}
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {productData.map((item) => (
           <div key={item?._id} className="max-w-2xl overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
