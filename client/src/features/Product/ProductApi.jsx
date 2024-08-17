@@ -10,8 +10,8 @@ const ProductApi = apiSlice.injectEndpoints({
     }),
 
     searchProducts: builder.query({
-      query: (searchText) => ({
-        url: `/productSearch?search=${searchText}`,
+      query: ({searchText, categoryfilter , brandfilter, sort }) => ({
+        url: `/productSearch?search=${searchText ? searchText : ""}&categoryfilter=${categoryfilter? categoryfilter : ""}&brandfilter=${brandfilter? brandfilter : ""}&sort=${sort? sort : ""}`,
       }),
       providesTags: ["Products"],
     }),

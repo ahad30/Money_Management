@@ -54,31 +54,42 @@ async function run() {
     })
 
                                              
-    app.get("/productSearch", async (req, res) => {
-      try {
-        const searchText = req.query.search || "";
-        // const filter = req.query.filter || "";
-        // const publishFilter = req.query.publisherFilter || "";
+  app.get("/productSearch", async (req, res) => {
+  try {
+    const searchText = req.query.search || "";
+    const categoryfilter = req.query.categoryfilter || "";
+    const brandfilter = req.query.brandfilter || "";
+    const sort = req.query.sort
 
+    let query = {
+      productName: { $regex: searchText, $options: 'i' },
+    };
 
-        let query = {
-          productName: { $regex: searchText, $options: 'i' },
-        };
-
-        // if (filter) {
-        //   query['tags.label'] = filter;
-        // }
-        // if (publishFilter) {
-        //   query['publisher.label'] = publishFilter;
-        // }
-    
-        // console.log("Query:", query);
-        const result = await productCollection.find(query).toArray();
-        res.send({ result });
-      } catch (error) {
-        res.status(404).send({ error });
+    if (categoryfilter) {
+      query['category'] = categoryfilter;
+    }
+    if (brandfilter) {
+      query['brand'] = brandfilter;
+    }
+    let options = {}
+    if (sort) {
+      if (sort === 'priceAsc') {
+        options.sort = { price: 1 };  // Sort by price low to high
+      } else if (sort === 'priceDesc') {
+        options.sort = { price: -1 }; // Sort by price high to low
+      } else if (sort === 'dateAsc') {
+        options.sort = { creationDate: 1 };  // Sort by creation date old to new
+      } else if (sort === 'dateDesc') {
+        options.sort = { creationDate: -1 }; // Sort by creation date new to old
       }
-    });
+    }
+
+    const result = await productCollection.find(query, options).toArray();
+    res.send({ result });
+  } catch (error) {
+    res.status(404).send({ error });
+  }
+});
     
 
   
