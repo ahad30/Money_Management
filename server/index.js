@@ -56,6 +56,8 @@ async function run() {
                                              
   app.get("/productSearch", async (req, res) => {
   try {
+    const size = parseInt(req.query.size)
+    const page = parseInt(req.query.page) - 1
     const searchText = req.query.search || "";
     const categoryfilter = req.query.categoryfilter || "";
     const brandfilter = req.query.brandfilter || "";
@@ -84,7 +86,34 @@ async function run() {
       }
     }
 
-    const result = await productCollection.find(query, options).toArray();
+    const result = await productCollection.find(query, options).
+     skip(page * size)
+    .limit(size).
+     toArray();
+    res.send({ result });
+  } catch (error) {
+    res.status(404).send({ error });
+  }
+});
+
+  app.get("/productCount", async (req, res) => {
+  try {
+    const searchText = req.query.search || "";
+    const categoryfilter = req.query.categoryfilter || "";
+    const brandfilter = req.query.brandfilter || "";
+  
+    let query = {
+      productName: { $regex: searchText, $options: 'i' },
+    };
+
+    if (categoryfilter) {
+      query['category'] = categoryfilter;
+    }
+    if (brandfilter) {
+      query['brand'] = brandfilter;
+    }
+
+    const result = await productCollection.countDocuments(query);
     res.send({ result });
   } catch (error) {
     res.status(404).send({ error });
